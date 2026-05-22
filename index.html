@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Oficial de Horarios Uso Libre 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;500;600;700&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8fafc; 
+        }
+        
+        h1, h2, h3, .font-brand { 
+            font-family: 'Montserrat', sans-serif; 
+        }
+
+        /* Identidad por Escuela (Colores Institucionales Duoc UC) */
+        .escuela-iyt { --p-color: #002d57; } /* Informática y Telecomunicaciones */
+        .escuela-ayn { --p-color: #AC4FC6; } /* Administración y Negocios */
+        .escuela-com { --p-color: #D50032; } /* Comunicaciones */
+        .escuela-dis { --p-color: #C4D600; } /* Diseño */
+        .escuela-sal { --p-color: #5BC2E7; } /* Salud */
+
+        /* Colores por Día */
+        .day-lunes { background-color: #3b82f6; }
+        .day-martes { background-color: #10b981; }
+        .day-miercoles { background-color: #8b5cf6; }
+        .day-jueves { background-color: #f59e0b; }
+        .day-viernes { background-color: #ef4444; }
+
+        .school-card { 
+            border-top: 12px solid var(--p-color); 
+            transition: transform 0.2s ease;
+        }
+        
+        .school-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+
+    <div class="max-w-[1440px] mx-auto">
+        
+        <!-- CABECERA INSTITUCIONAL -->
+        <header class="bg-white rounded-3xl shadow-xl p-8 mb-12 flex flex-col lg:flex-row items-center justify-between gap-8 border-b-8 border-slate-200 relative overflow-hidden">
+            <!-- Línea de colores institucional Duoc UC -->
+            <div class="absolute top-0 left-0 w-full h-3 flex">
+                <div class="flex-1 bg-[#002d57]"></div>
+                <div class="flex-1 bg-[#C4D600]"></div>
+                <div class="flex-1 bg-[#AC4FC6]"></div>
+                <div class="flex-1 bg-[#D50032]"></div>
+                <div class="flex-1 bg-[#5BC2E7]"></div>
+            </div>
+            
+            <div class="text-center lg:text-left">
+                <h1 class="text-5xl font-black text-slate-900 tracking-tighter leading-none mb-2">
+                    USO <span class="text-[#002d57]">LIBRE</span> <span class="text-slate-400">2026</span>
+                </h1>
+                <p class="text-slate-400 font-bold uppercase text-xs tracking-[0.5em]">Panel Maestro de Disponibilidad de Recintos</p>
+            </div>
+            
+            <div class="flex gap-4">
+                <button onclick="downloadSelf()" class="bg-[#002d57] hover:bg-[#001d36] text-white px-8 py-4 rounded-2xl font-black text-xs transition-all flex items-center gap-3 shadow-lg active:scale-95 group">
+                    <i class="fas fa-file-download group-hover:bounce transition-transform"></i> DESCARGAR PÁGINA OFICIAL
+                </button>
+            </div>
+        </header>
+
+        <!-- CONTENEDOR DE ESCUELAS -->
+        <div class="grid grid-cols-1 gap-16" id="schools-container">
+                <div class="bg-white rounded-[2.5rem] shadow-lg overflow-hidden school-card escuela-iyt border border-slate-100">
+                    
+                    <!-- ENCABEZADO DE LA ESCUELA -->
+                    <div class="p-8 border-b bg-slate-50 flex flex-col xl:flex-row xl:items-start justify-between gap-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <!-- Bloque de color sólido sin logo -->
+                            <div class="w-16 h-16 rounded-2xl shadow-xl shrink-0" style="background-color: var(--p-color)"></div>
+                            <div>
+                                <h2 class="text-3xl font-black uppercase tracking-tighter leading-tight" style="color: var(--p-color)">Escuela de Informática y Telecomunicaciones</h2>
+                                <p class="text-[10px] text-slate-500 mt-2 font-medium max-w-xl">
+                                    Información conforme al archivo de RESERVAS DE SALAS DE CCDD, calculado como porcentaje promedio de reservas respecto a los espacios libres hasta la fecha*
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- ETIQUETAS ESTADÍSTICAS -->
+                        <div class="flex flex-wrap gap-2 shrink-0 h-fit">
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-chart-line text-slate-400"></i> % de consumo respecto a los espacios sin uso: <span class="text-slate-800 text-xs">61%</span>
+                             </div>
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-th-large text-slate-400"></i> Total Bloques: <span class="text-slate-800 text-xs">11</span>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- TABLAS DE HORARIOS -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-slate-200">
+                        <!-- COLUMNA DIURNA -->
+                        <div class="p-8 bg-white">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-amber-500 uppercase text-sm tracking-widest">
+                                <i class="fas fa-sun text-xl"></i> Jornada Diurna
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">10:11-12:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-TP2</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO DE HARDWARE (TP2)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">16:11-20:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC12</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO PC (IT)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">32</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-martes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Martes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC3</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO PC (IT)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">31</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-martes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Martes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LT1</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO DE TELECOM. (LT1)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">22</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-martes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Martes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-TP2</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO DE HARDWARE (TP2)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-miercoles px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Miércoles
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LR1</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO DE REDES (LR1-LR2)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">22</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                        
+                        <!-- COLUMNA VESPERTINA -->
+                        <div class="p-8 bg-white lg:border-l lg:border-slate-100">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-indigo-600 uppercase text-sm tracking-widest">
+                                <i class="fas fa-moon text-xl"></i> Jornada Vespertina
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-martes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Martes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LR1</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO DE REDES (LR1-LR2)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">22</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-martes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Martes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LT1</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO DE TELECOM. (LT1)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">22</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-viernes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Viernes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC17</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO MAC</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">34</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-viernes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Viernes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-TP1</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO DE PROYECTO (TP1)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-viernes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Viernes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-TP2</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO DE HARDWARE (TP2)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="bg-white rounded-[2.5rem] shadow-lg overflow-hidden school-card escuela-ayn border border-slate-100">
+                    
+                    <!-- ENCABEZADO DE LA ESCUELA -->
+                    <div class="p-8 border-b bg-slate-50 flex flex-col xl:flex-row xl:items-start justify-between gap-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <!-- Bloque de color sólido sin logo -->
+                            <div class="w-16 h-16 rounded-2xl shadow-xl shrink-0" style="background-color: var(--p-color)"></div>
+                            <div>
+                                <h2 class="text-3xl font-black uppercase tracking-tighter leading-tight" style="color: var(--p-color)">Escuela de Administración y Negocios</h2>
+                                <p class="text-[10px] text-slate-500 mt-2 font-medium max-w-xl">
+                                    Información conforme al archivo de RESERVAS DE SALAS DE CCDD, calculado como porcentaje promedio de reservas respecto a los espacios libres hasta la fecha*
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- ETIQUETAS ESTADÍSTICAS -->
+                        <div class="flex flex-wrap gap-2 shrink-0 h-fit">
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-chart-line text-slate-400"></i> % de consumo respecto a los espacios sin uso: <span class="text-slate-800 text-xs">37%</span>
+                             </div>
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-th-large text-slate-400"></i> Total Bloques: <span class="text-slate-800 text-xs">4</span>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- TABLAS DE HORARIOS -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-slate-200">
+                        <!-- COLUMNA DIURNA -->
+                        <div class="p-8 bg-white">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-amber-500 uppercase text-sm tracking-widest">
+                                <i class="fas fa-sun text-xl"></i> Jornada Diurna
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">09:31-12:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC6</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO PC Cap. 40 (GENERAL)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">40</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                        
+                        <!-- COLUMNA VESPERTINA -->
+                        <div class="p-8 bg-white lg:border-l lg:border-slate-100">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-indigo-600 uppercase text-sm tracking-widest">
+                                <i class="fas fa-moon text-xl"></i> Jornada Vespertina
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S501</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA DE CLASES 20 (sala silla)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">22</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-miercoles px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Miércoles
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S301</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA DE CLASES 25 (sala silla)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">25</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-jueves px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Jueves
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S74</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA DE CLASES 30 (sala silla)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="bg-white rounded-[2.5rem] shadow-lg overflow-hidden school-card escuela-dis border border-slate-100">
+                    
+                    <!-- ENCABEZADO DE LA ESCUELA -->
+                    <div class="p-8 border-b bg-slate-50 flex flex-col xl:flex-row xl:items-start justify-between gap-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <!-- Bloque de color sólido sin logo -->
+                            <div class="w-16 h-16 rounded-2xl shadow-xl shrink-0" style="background-color: var(--p-color)"></div>
+                            <div>
+                                <h2 class="text-3xl font-black uppercase tracking-tighter leading-tight" style="color: var(--p-color)">Escuela de Diseño</h2>
+                                <p class="text-[10px] text-slate-500 mt-2 font-medium max-w-xl">
+                                    Información conforme al archivo de RESERVAS DE SALAS DE CCDD, calculado como porcentaje promedio de reservas respecto a los espacios libres hasta la fecha*
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- ETIQUETAS ESTADÍSTICAS -->
+                        <div class="flex flex-wrap gap-2 shrink-0 h-fit">
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-chart-line text-slate-400"></i> % de consumo respecto a los espacios sin uso: <span class="text-slate-800 text-xs">42%</span>
+                             </div>
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-th-large text-slate-400"></i> Total Bloques: <span class="text-slate-800 text-xs">8</span>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- TABLAS DE HORARIOS -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-slate-200">
+                        <!-- COLUMNA DIURNA -->
+                        <div class="p-8 bg-white">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-amber-500 uppercase text-sm tracking-widest">
+                                <i class="fas fa-sun text-xl"></i> Jornada Diurna
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-martes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Martes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-T11</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA ACBD (AMBIENTES-INDUSTRIAL)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-viernes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Viernes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S13</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA ACBD (AMBIENTES-INDUSTRIAL)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">32</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-viernes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Viernes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S36</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA ESPECIALIDAD VESTUARIO (35-36)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">27</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                        
+                        <!-- COLUMNA VESPERTINA -->
+                        <div class="p-8 bg-white lg:border-l lg:border-slate-100">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-indigo-600 uppercase text-sm tracking-widest">
+                                <i class="fas fa-moon text-xl"></i> Jornada Vespertina
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S12</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA ACBD (AMBIENTES-INDUSTRIAL)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">32</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S61</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA ACBD (ÁREA GRÁFICA)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">31</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-martes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Martes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S32</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA ACBD (VESTUARIO)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-miercoles px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Miércoles
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-S64</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA DIBUJO (ÁREA GRÁFICA)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-viernes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Viernes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-T75</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">SALA ACBD (ÁREA GRÁFICA)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">31</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="bg-white rounded-[2.5rem] shadow-lg overflow-hidden school-card escuela-com border border-slate-100">
+                    
+                    <!-- ENCABEZADO DE LA ESCUELA -->
+                    <div class="p-8 border-b bg-slate-50 flex flex-col xl:flex-row xl:items-start justify-between gap-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <!-- Bloque de color sólido sin logo -->
+                            <div class="w-16 h-16 rounded-2xl shadow-xl shrink-0" style="background-color: var(--p-color)"></div>
+                            <div>
+                                <h2 class="text-3xl font-black uppercase tracking-tighter leading-tight" style="color: var(--p-color)">Escuela de Comunicaciones</h2>
+                                <p class="text-[10px] text-slate-500 mt-2 font-medium max-w-xl">
+                                    Información conforme al archivo de RESERVAS DE SALAS DE CCDD, calculado como porcentaje promedio de reservas respecto a los espacios libres hasta la fecha*
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- ETIQUETAS ESTADÍSTICAS -->
+                        <div class="flex flex-wrap gap-2 shrink-0 h-fit">
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-chart-line text-slate-400"></i> % de consumo respecto a los espacios sin uso: <span class="text-slate-800 text-xs">43%</span>
+                             </div>
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-th-large text-slate-400"></i> Total Bloques: <span class="text-slate-800 text-xs">5</span>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- TABLAS DE HORARIOS -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-slate-200">
+                        <!-- COLUMNA DIURNA -->
+                        <div class="p-8 bg-white">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-amber-500 uppercase text-sm tracking-widest">
+                                <i class="fas fa-sun text-xl"></i> Jornada Diurna
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">08:01-16:10</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC10</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO CINTIQ</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">17:01-20:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC13</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO MAC</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">32</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-miercoles px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Miércoles
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC14</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO CINTIQ</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-viernes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Viernes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC15</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO PC (IT)</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                        
+                        <!-- COLUMNA VESPERTINA -->
+                        <div class="p-8 bg-white lg:border-l lg:border-slate-100">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-indigo-600 uppercase text-sm tracking-widest">
+                                <i class="fas fa-moon text-xl"></i> Jornada Vespertina
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-miercoles px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Miércoles
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-LC13</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">LABORATORIO MAC</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">32</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="bg-white rounded-[2.5rem] shadow-lg overflow-hidden school-card escuela-sal border border-slate-100">
+                    
+                    <!-- ENCABEZADO DE LA ESCUELA -->
+                    <div class="p-8 border-b bg-slate-50 flex flex-col xl:flex-row xl:items-start justify-between gap-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <!-- Bloque de color sólido sin logo -->
+                            <div class="w-16 h-16 rounded-2xl shadow-xl shrink-0" style="background-color: var(--p-color)"></div>
+                            <div>
+                                <h2 class="text-3xl font-black uppercase tracking-tighter leading-tight" style="color: var(--p-color)">Escuela de Salud</h2>
+                                <p class="text-[10px] text-slate-500 mt-2 font-medium max-w-xl">
+                                    Información conforme al archivo de RESERVAS DE SALAS DE CCDD, calculado como porcentaje promedio de reservas respecto a los espacios libres hasta la fecha*
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- ETIQUETAS ESTADÍSTICAS -->
+                        <div class="flex flex-wrap gap-2 shrink-0 h-fit">
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-chart-line text-slate-400"></i> % de consumo respecto a los espacios sin uso: <span class="text-slate-800 text-xs">35%</span>
+                             </div>
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-th-large text-slate-400"></i> Total Bloques: <span class="text-slate-800 text-xs">3</span>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- TABLAS DE HORARIOS -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-slate-200">
+                        <!-- COLUMNA DIURNA -->
+                        <div class="p-8 bg-white">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-amber-500 uppercase text-sm tracking-widest">
+                                <i class="fas fa-sun text-xl"></i> Jornada Diurna
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-miercoles px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Miércoles
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">14:01-15:20</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-G1</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">GIMNASIO</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">20</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                        
+                        <!-- COLUMNA VESPERTINA -->
+                        <div class="p-8 bg-white lg:border-l lg:border-slate-100">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-indigo-600 uppercase text-sm tracking-widest">
+                                <i class="fas fa-moon text-xl"></i> Jornada Vespertina
+                            </h3>
+                            
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-lunes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Lunes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-G3</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">GIMNASIO</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">30</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-martes px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            Martes
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">19:01-22:30</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">VI-G2B</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">GIMNASIO CON PESAS</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">20</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <footer class="mt-20 py-20 border-t-2 border-slate-100 text-center">
+            <p class="text-slate-400 text-[10px] font-black uppercase tracking-[1em]">Gestión de Espacios Institucionales • Duoc UC 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // BASE DE DATOS SINCRONIZADA
+        const data = [
+            {
+                nombre: "Informática y Telecomunicaciones", id: "iyt",
+                reservas: 61,
+                diurna: [
+                    {dia: "Lunes", horario: "10:11-12:20", sala: "VI-TP2", tipo: "LABORATORIO DE HARDWARE (TP2)", cap: 30},
+                    {dia: "Lunes", horario: "16:11-20:20", sala: "VI-LC12", tipo: "LABORATORIO PC (IT)", cap: 32},
+                    {dia: "Martes", horario: "14:01-15:20", sala: "VI-LC3", tipo: "LABORATORIO PC (IT)", cap: 31},
+                    {dia: "Martes", horario: "14:01-15:20", sala: "VI-LT1", tipo: "LABORATORIO DE TELECOM. (LT1)", cap: 22},
+                    {dia: "Martes", horario: "14:01-15:20", sala: "VI-TP2", tipo: "LABORATORIO DE HARDWARE (TP2)", cap: 30},
+                    {dia: "Miércoles", horario: "14:01-15:20", sala: "VI-LR1", tipo: "LABORATORIO DE REDES (LR1-LR2)", cap: 22}
+                ],
+                vespertina: [
+                    {dia: "Martes", horario: "19:01-22:30", sala: "VI-LR1", tipo: "LABORATORIO DE REDES (LR1-LR2)", cap: 22},
+                    {dia: "Martes", horario: "19:01-22:30", sala: "VI-LT1", tipo: "LABORATORIO DE TELECOM. (LT1)", cap: 22},
+                    {dia: "Viernes", horario: "19:01-22:30", sala: "VI-LC17", tipo: "LABORATORIO MAC", cap: 34},
+                    {dia: "Viernes", horario: "19:01-22:30", sala: "VI-TP1", tipo: "LABORATORIO DE PROYECTO (TP1)", cap: 30},
+                    {dia: "Viernes", horario: "19:01-22:30", sala: "VI-TP2", tipo: "LABORATORIO DE HARDWARE (TP2)", cap: 30}
+                ]
+            },
+            {
+                nombre: "Administración y Negocios", id: "ayn",
+                reservas: 37,
+                diurna: [
+                    {dia: "Lunes", horario: "09:31-12:20", sala: "VI-LC6", tipo: "LABORATORIO PC Cap. 40 (GENERAL)", cap: 40}
+                ],
+                vespertina: [
+                    {dia: "Lunes", horario: "19:01-22:30", sala: "VI-LC47", tipo: "SALA HÍBRIDA (RACK PC)", cap: 30}
+                ]
+            },
+            {
+                nombre: "Diseño", id: "dis",
+                reservas: 42,
+                diurna: [
+                    {dia: "Martes", horario: "14:01-15:20", sala: "VI-T11", tipo: "SALA ACBD (AMBIENTES-INDUSTRIAL)", cap: 30},
+                    {dia: "Viernes", horario: "14:01-15:20", sala: "VI-S13", tipo: "SALA ACBD (AMBIENTES-INDUSTRIAL)", cap: 32},
+                    {dia: "Viernes", horario: "14:01-15:20", sala: "VI-S36", tipo: "SALA ESPECIALIDAD VESTUARIO (35-36)", cap: 27}
+                ],
+                vespertina: [
+                    {dia: "Lunes", horario: "19:01-22:30", sala: "VI-S12", tipo: "SALA ACBD (AMBIENTES-INDUSTRIAL)", cap: 32},
+                ]
+            },
+            {
+                nombre: "Comunicaciones", id: "com",
+                reservas: 43,
+                diurna: [
+                    {dia: "Lunes", horario: "08:01-16:10", sala: "VI-LC10", tipo: "LABORATORIO CINTIQ", cap: 30},
+                    {dia: "Lunes", horario: "17:01-20:20", sala: "VI-LC13", tipo: "LABORATORIO MAC", cap: 32},
+                    {dia: "Miércoles", horario: "14:01-15:20", sala: "VI-LC14", tipo: "LABORATORIO CINTIQ", cap: 30},
+                    {dia: "Viernes", horario: "14:01-15:20", sala: "VI-LC15", tipo: "LABORATORIO PC (IT)", cap: 30}
+                ],
+                vespertina: [
+                    {dia: "Miércoles", horario: "19:01-22:30", sala: "VI-LC13", tipo: "LABORATORIO MAC", cap: 32}
+                ]
+            },
+            {
+                nombre: "Salud", id: "sal",
+                reservas: 35,
+                diurna: [
+                    {dia: "Miércoles", horario: "14:01-15:20", sala: "VI-G1", tipo: "GIMNASIO", cap: 20}
+                ],
+                vespertina: [
+                    {dia: "Lunes", horario: "19:01-22:30", sala: "VI-G3", tipo: "GIMNASIO", cap: 30},
+                    {dia: "Martes", horario: "19:01-22:30", sala: "VI-G2B", tipo: "GIMNASIO CON PESAS", cap: 20}
+                ]
+            }
+        ];
+
+        function renderTable(list) {
+            if (!list || list.length === 0) return `<div class="p-12 text-center text-slate-300 italic border-2 border-dashed border-slate-100 rounded-3xl mt-4">Sin bloques disponibles.</div>`;
+            
+            return `
+                <div class="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm mt-4">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead class="bg-slate-900 text-white font-black uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Día</th>
+                                <th class="p-4 text-center">Horario</th>
+                                <th class="p-4">Recinto</th>
+                                <th class="p-4 text-center">Capacidad</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            ${list.map(item => `
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="p-4">
+                                        <span class="day-${item.dia.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")} px-3 py-1 rounded-full text-[10px] text-white font-black uppercase shadow-sm">
+                                            ${item.dia}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-mono font-bold text-slate-500 text-center tracking-tighter">${item.horario}</td>
+                                    <td class="p-4">
+                                        <div class="flex flex-col">
+                                            <span class="font-black text-slate-800">${item.sala}</span>
+                                            <span class="text-[9px] text-slate-400 uppercase font-bold">${item.tipo}</span>
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <div class="inline-flex flex-col items-center justify-center bg-slate-100 w-10 h-10 rounded-xl">
+                                            <span class="text-xs font-black text-slate-900">${item.cap}</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function init() {
+            const container = document.getElementById('schools-container');
+            container.innerHTML = data.map(escuela => `
+                <div class="bg-white rounded-[2.5rem] shadow-lg overflow-hidden school-card escuela-${escuela.id} border border-slate-100">
+                    
+                    <!-- ENCABEZADO DE LA ESCUELA -->
+                    <div class="p-8 border-b bg-slate-50 flex flex-col xl:flex-row xl:items-start justify-between gap-6">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <!-- Bloque de color sólido sin logo -->
+                            <div class="w-16 h-16 rounded-2xl shadow-xl shrink-0" style="background-color: var(--p-color)"></div>
+                            <div>
+                                <h2 class="text-3xl font-black uppercase tracking-tighter leading-tight" style="color: var(--p-color)">Escuela de ${escuela.nombre}</h2>
+                                <p class="text-[10px] text-slate-500 mt-2 font-medium max-w-xl">
+                                    Información conforme al archivo de RESERVAS DE SALAS DE CCDD, calculado como porcentaje promedio de reservas respecto a los espacios libres hasta la fecha*
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- ETIQUETAS ESTADÍSTICAS -->
+                        <div class="flex flex-wrap gap-2 shrink-0 h-fit">
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-chart-line text-slate-400"></i> % de consumo respecto a los espacios sin uso: <span class="text-slate-800 text-xs">${escuela.reservas}%</span>
+                             </div>
+                             <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 text-[10px] font-black uppercase text-slate-500 shadow-sm flex items-center gap-2">
+                                <i class="fas fa-th-large text-slate-400"></i> Total Bloques: <span class="text-slate-800 text-xs">${escuela.diurna.length + escuela.vespertina.length}</span>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <!-- TABLAS DE HORARIOS -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-slate-200">
+                        <!-- COLUMNA DIURNA -->
+                        <div class="p-8 bg-white">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-amber-500 uppercase text-sm tracking-widest">
+                                <i class="fas fa-sun text-xl"></i> Jornada Diurna
+                            </h3>
+                            ${renderTable(escuela.diurna)}
+                        </div>
+                        
+                        <!-- COLUMNA VESPERTINA -->
+                        <div class="p-8 bg-white lg:border-l lg:border-slate-100">
+                            <h3 class="flex items-center gap-3 mb-6 font-black text-indigo-600 uppercase text-sm tracking-widest">
+                                <i class="fas fa-moon text-xl"></i> Jornada Vespertina
+                            </h3>
+                            ${renderTable(escuela.vespertina)}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function downloadSelf() {
+            const html = document.documentElement.outerHTML;
+            const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'horarios_maestros_duoc_2026.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        window.onload = init;
+    </script>
+
+</body>
+</html>
